@@ -7,18 +7,20 @@ exports.createLookup = (data, key, value) => {
   return lookup;
 };
 
-exports.formatArticleData = (articleData) => {
-  let answer = [...articleData];
+exports.changeTimeFormat = (dataSet) => {
+  return dataSet.map((dataElement) => {
+    const dataClone = { ...dataElement };
+    const newTime = new Date(dataElement.created_at);
+    dataClone.created_at = newTime;
+    return dataClone;
+  });
+};
 
-  for (let i = 0; i < answer.length; i++) {
-    const article = {...answer[i]}
-    const unixDate = answer[i].created_at;
-    const jsDate = new Date(unixDate);
-    //console.log(jsDate);
-    article[i].created_at = jsDate;
-    
-    //console.log(articleData[i])
-  }
-
-  return answer
-}
+exports.changeBelongsToFormat = (data, lookup) => {
+  return data.map((dataElement) => {
+    const dataClone = { ...dataElement };
+    dataClone.article_id = lookup[dataClone.belongs_to];
+    delete dataClone.belongs_to;
+    return dataClone;
+  });
+};

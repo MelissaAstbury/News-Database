@@ -4,7 +4,7 @@ exports.up = function (knex) {
     commentsTable.increments('comment_id').primary();
     commentsTable.string('body').notNullable();
     commentsTable.integer('belongs_to').references('articles.article_id');
-    commentsTable.string('created_by').references('users.username');
+    commentsTable.string('author').references('users.username');
     commentsTable.integer('votes').defaultTo(0).notNullable();
     commentsTable
       .timestamp('created_at')
