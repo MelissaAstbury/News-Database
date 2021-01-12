@@ -4,7 +4,11 @@ const {
   commentData,
   userData,
 } = require('../data/index.js');
-const { changeTimeFormat } = require('../utils/data-manipulation.js');
+const {
+  changeTimeFormat,
+  createLookup,
+  changeBelongsToFormat,
+} = require('../utils/data-manipulation.js');
 
 exports.seed = (knex) => {
   return knex.migrate
@@ -21,6 +25,15 @@ exports.seed = (knex) => {
       return knex.insert(formattedArticles).into('articles').returning('*');
     })
     .then((articleRows) => {
-      console.log(articleRows);
+      const articleLookup = createLookup(articleRows, 'title', 'article_id');
+      const timeComments = changeTimeFormat(commentData);
+      const formattedComments = changeBelongsToFormat(
+        timeComments,
+        articleLookup
+      );
+      return knex.insert(formattedComments).into('comments').returning('*');
+    })
+    .then((commentRows) => {
+      console.log(commentRows);
     });
 };
