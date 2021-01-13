@@ -1,7 +1,8 @@
 const { fetchAllTopics } = require('../models/topicModels');
 
 exports.getAllTopics = (req, res, next) => {
-  fetchAllTopics()
+  const { sort_by } = req.query;
+  fetchAllTopics(sort_by)
     .then((topics) => {
       res.status(200).send({ topics });
     })

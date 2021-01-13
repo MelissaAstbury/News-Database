@@ -32,8 +32,8 @@ exports.seed = (knex) => {
         articleLookup
       );
       return knex.insert(formattedComments).into('comments').returning('*');
-    })
-    .then((commentRows) => {
-      console.log(commentRows);
     });
+  // .then((commentRows) => {
+  //   console.log(commentRows);
+  // });
 };

@@ -21,6 +21,24 @@ describe('/api/topics', () => {
           expect(body.topics.length).toBe(3);
         });
     });
+  });
+  describe('ERROR HANDLING', () => {
+    it('status 404 - return an error message when the url does not exist', () => {
+      return request(app).get('/api/topic').expect(404);
+    });
+    it('status 400 - returns an error message when topic property does not exist', () => {
+      return request(app)
+        .get('/api/topics?sort_by=age')
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe(' column "age" does not exist');
+        });
+    });
+  });
+});
+
+describe('/api/users', () => {
+  describe('GET', () => {
     it('status 200 - responds with an array of users', () => {
       return request(app)
         .get('/api/users')

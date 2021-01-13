@@ -1,5 +1,5 @@
 const connection = require('../db/connection');
 
-exports.fetchAllTopics = () => {
-  return connection.select('*').from('topics');
+exports.fetchAllTopics = (sort_by = 'slug') => {
+  return connection.select('*').from('topics').orderBy(sort_by);
 };
