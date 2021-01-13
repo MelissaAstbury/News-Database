@@ -48,6 +48,20 @@ describe('/api/users', () => {
           expect(body.users[0].username).toBe('lurker');
         });
     });
+    it('status 200 - returns a user object that matches the username requested', () => {
+      const expectedBody = {
+        username: 'butter_bridge',
+        name: 'jonny',
+        avatar_url:
+          'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+      };
+      return request(app)
+        .get('/api/users/user/butter_bridge')
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toStrictEqual(expectedBody);
+        });
+    });
   });
   describe('ERROR HANDLING', () => {
     it('status 404 - return when a url does not exist', () => {
