@@ -1,5 +1,5 @@
 const connection = require('../db/connection');
 
-exports.fetchAllUsers = () => {
-  return connection.select('*').from('users');
+exports.fetchAllUsers = (sort_by = 'name') => {
+  return connection.select('*').from('users').orderBy(sort_by);
 };

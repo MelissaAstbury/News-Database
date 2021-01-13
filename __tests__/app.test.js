@@ -23,10 +23,10 @@ describe('/api/topics', () => {
     });
   });
   describe('ERROR HANDLING', () => {
-    it('status 404 - return an error message when the url does not exist', () => {
+    it('status 404 - return when a url does not exist', () => {
       return request(app).get('/api/topic').expect(404);
     });
-    it('status 400 - returns an error message when topic property does not exist', () => {
+    it('status 400 - returns an error message when a topic property does not exist', () => {
       return request(app)
         .get('/api/topics?sort_by=age')
         .expect(400)
@@ -45,7 +45,20 @@ describe('/api/users', () => {
         .expect(200)
         .then(({ body }) => {
           expect(body.users.length).toBe(4);
-          expect(body.users[0].username).toBe('butter_bridge');
+          expect(body.users[0].username).toBe('lurker');
+        });
+    });
+  });
+  describe('ERROR HANDLING', () => {
+    it('status 404 - return when a url does not exist', () => {
+      return request(app).get('/api/user').expect(404);
+    });
+    it('status 400 - returns an error message when a user property does not exist', () => {
+      return request(app)
+        .get('/api/users?sort_by=age')
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.message).toBe(' column "age" does not exist');
         });
     });
   });
