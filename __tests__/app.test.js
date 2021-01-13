@@ -77,3 +77,11 @@ describe('/api/users', () => {
     });
   });
 });
+
+describe('/api/articles', () => {
+  describe('DELETE', () => {
+    it('status 204 - deletes an article object when given an id that exists', () => {
+      return request(app).delete('/api/articles/1').expect(204);
+    });
+  });
+});
