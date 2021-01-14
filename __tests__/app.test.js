@@ -79,6 +79,26 @@ describe('/api/users', () => {
 });
 
 describe('/api/articles', () => {
+  describe('GET', () => {
+    it('status 200 - returns a article object that matches the article_id requested', () => {
+      const expectedBody = {
+        article_id: 1,
+        title: 'Living in the shadow of a great man',
+        topic: 'mitch',
+        author: 'butter_bridge',
+        body: 'I find this existence challenging',
+        created_at: '2018-11-15T12:21:54.171Z',
+        votes: 100,
+      };
+      return request(app)
+        .get('/api/articles/1')
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toStrictEqual(expectedBody);
+        });
+    });
+  });
+
   describe('DELETE', () => {
     it('status 204 - deletes an article object when given an id that exists', () => {
       return request(app).delete('/api/articles/1').expect(204);

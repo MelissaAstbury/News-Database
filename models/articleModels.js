@@ -1,5 +1,15 @@
 const connection = require('../db/connection');
 
+exports.fetchArticleById = (article_id) => {
+  return connection
+    .select('*')
+    .from('articles')
+    .where('article_id', '=', article_id)
+    .then(([article]) => {
+      return article;
+    });
+};
+
 exports.deleteArticle = (article_id) => {
   return connection('articles').del().where({ article_id });
 };
