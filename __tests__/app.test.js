@@ -84,4 +84,26 @@ describe('/api/articles', () => {
       return request(app).delete('/api/articles/1').expect(204);
     });
   });
+  describe('PATCH', () => {
+    it('status 201 - updates object - increases the vote count', () => {
+      const input = { voteIncrease: 1 };
+      return request(app)
+        .patch('/api/articles/1')
+        .send(input)
+        .expect(201)
+        .then((response) => {
+          expect(response.body).toEqual({
+            articleVoteIncreased: {
+              article_id: 1,
+              title: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+              created_at: expect.any(String),
+              topic: expect.any(String),
+              votes: 101,
+            },
+          });
+        });
+    });
+  });
 });
