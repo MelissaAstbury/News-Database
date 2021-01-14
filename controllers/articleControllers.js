@@ -2,6 +2,7 @@ const {
   fetchArticleById,
   deleteArticle,
   updateArticleById,
+  fecthArticleCommentsById,
 } = require('../models/articleModels');
 
 exports.getArticleById = (req, res, next) => {
@@ -30,4 +31,11 @@ exports.updateById = (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+};
+
+exports.getArticleComments = (req, res, next) => {
+  const { article_id } = req.params;
+  fecthArticleCommentsById(article_id).then(([comment]) => {
+    res.send({ comment });
+  });
 };

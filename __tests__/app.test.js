@@ -98,7 +98,16 @@ describe('/api/articles', () => {
         });
     });
   });
-
+  describe('GET', () => {
+    it('status 200 - returns an array of comments for that particular article', () => {
+      return request(app)
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then((response) => {
+          console.log(response);
+        });
+    });
+  });
   describe('DELETE', () => {
     it('status 204 - deletes an article object when given an id that exists', () => {
       return request(app).delete('/api/articles/1').expect(204);

@@ -23,3 +23,15 @@ exports.updateArticleById = (article_id, voteIncrease) => {
       return result;
     });
 };
+
+exports.fecthArticleCommentsById = (article_id) => {
+  return connection
+    .select('*')
+    .from('comments')
+    .where({ article_id })
+    .then((article) => {
+      if (!article)
+        return Promise.reject({ status: 404, msg: 'Article not found' });
+      return article;
+    });
+};
