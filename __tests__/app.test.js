@@ -22,6 +22,25 @@ describe('/api/topics', () => {
         });
     });
   });
+  describe('POST', () => {
+    it('status 201 - returns a new topic', () => {
+      const input = {
+        description: 'The snow is the best',
+        slug: 'melissa',
+      };
+      const expected = {
+        description: 'The snow is the best',
+        slug: 'melissa',
+      };
+      return request(app)
+        .post('/api/topics')
+        .send(input)
+        .expect(201)
+        .then((response) => {
+          expect(response.body[0]).toEqual(expected);
+        });
+    });
+  });
   describe('ERROR HANDLING', () => {
     it('status 404 - return when a url does not exist', () => {
       return request(app).get('/api/topic').expect(404);
@@ -161,10 +180,12 @@ describe('/api/articles', () => {
         });
     });
   });
-  describe('ERROR HANDLING', () => {
+  describe('DELETE', () => {
     it('status 204 - deletes an article object when given an id that exists', () => {
       return request(app).delete('/api/articles/1').expect(204);
     });
+  });
+  describe('ERROR HANDLING', () => {
     it('status 404 - returns and err msg when article_id object does not exists', () => {
       return request(app)
         .delete('/api/articles/30')
