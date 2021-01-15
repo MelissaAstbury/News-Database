@@ -3,6 +3,7 @@ const {
   deleteArticle,
   updateArticleById,
   fecthArticleCommentsById,
+  addCommentToArticle,
 } = require('../models/articleModels');
 
 exports.getArticleById = (req, res, next) => {
@@ -16,9 +17,11 @@ exports.getArticleById = (req, res, next) => {
 
 exports.deleteById = (req, res, next) => {
   const { article_id } = req.params;
-  deleteArticle(article_id).then((article) => {
-    res.sendStatus(204);
-  });
+  deleteArticle(article_id)
+    .then((article) => {
+      res.sendStatus(204);
+    })
+    .catch(next);
 };
 
 exports.updateById = (req, res, next) => {
@@ -38,4 +41,18 @@ exports.getArticleComments = (req, res, next) => {
   fecthArticleCommentsById(article_id).then(([comment]) => {
     res.send({ comment });
   });
+};
+
+exports.postNewCommentByArticleId = (req, res, next) => {
+  const { article_id } = req.params;
+  const comment = {
+    created_by: req.body.username,
+    body: req.body.body,
+    article_id: article_id,
+  };
+  addCommentToArticle(comment)
+    .then(([newComment]) => {
+      res.status(201).send({ comment: newComment });
+    })
+    .catch(next);
 };

@@ -103,14 +103,53 @@ describe('/api/articles', () => {
       return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
-        .then((response) => {
-          console.log(response);
+        .then(({ body: { comment } }) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              created_by: expect.any(String),
+              body: expect.any(String),
+              comment_id: expect.any(Number),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+            })
+          );
         });
     });
   });
-  describe('DELETE', () => {
+  describe('POST', () => {
+    it('status 201 - returns a new comment', () => {
+      const input = {
+        username: 'butter_bridge',
+        body: 'This is my first comment',
+      };
+      const expected = {
+        comment_id: 19,
+        body: 'This is my first comment',
+        article_id: 2,
+        created_by: 'butter_bridge',
+        votes: 0,
+        created_at: expect.any(String),
+      };
+      return request(app)
+        .post('/api/articles/2/comments')
+        .send(input)
+        .expect(201)
+        .then(({ body: { comment } }) => {
+          expect(comment).toEqual(expected);
+        });
+    });
+  });
+  describe.only('DELETE', () => {
     it('status 204 - deletes an article object when given an id that exists', () => {
       return request(app).delete('/api/articles/1').expect(204);
+    });
+    it('status 404 - returns and err msg when article_id object does not exists', () => {
+      return request(app)
+        .delete('/api/articles/30')
+        .expect(404)
+        .then((response) => {
+          expect(response.body.message).toBe('This article_id does not exist');
+        });
     });
   });
   describe('PATCH', () => {

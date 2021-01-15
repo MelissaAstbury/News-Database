@@ -14,7 +14,12 @@ app.use('/api/articles', articleRoutes);
 app.use('/api/comments', commentRoutes);
 
 app.use((err, req, res, next) => {
-  res.status(400).send({ message: err.message.split('-')[1] });
+  console.log(err);
+  if (err.statusCode) {
+    res.status(err.statusCode).send({ message: err.msg });
+  } else {
+    res.status(400).send({ message: err.message.split('-')[1] });
+  }
 });
 
 module.exports = app;
