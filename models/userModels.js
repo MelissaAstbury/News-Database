@@ -12,3 +12,7 @@ exports.fetchUserByUsername = (username) => {
       return user;
     });
 };
+
+exports.addNewUser = (user) => {
+  return connection('users').insert(user).returning('*');
+};

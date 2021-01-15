@@ -82,6 +82,29 @@ describe('/api/users', () => {
         });
     });
   });
+  describe('POST', () => {
+    it('status 201 - returns a new user', () => {
+      const input = {
+        username: 'smelly_melly',
+        name: 'melissa',
+        avatar_url:
+          'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+      };
+      const expected = {
+        username: 'smelly_melly',
+        name: 'melissa',
+        avatar_url:
+          'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+      };
+      return request(app)
+        .post('/api/users')
+        .send(input)
+        .expect(201)
+        .then((response) => {
+          expect(response.body[0]).toEqual(expected);
+        });
+    });
+  });
   describe('ERROR HANDLING', () => {
     it('status 404 - return when a url does not exist', () => {
       return request(app).get('/api/user').expect(404);

@@ -1,4 +1,8 @@
-const { fetchAllUsers, fetchUserByUsername } = require('../models/userModels');
+const {
+  fetchAllUsers,
+  fetchUserByUsername,
+  addNewUser,
+} = require('../models/userModels');
 
 exports.getAllUsers = (req, res, next) => {
   const { sort_by } = req.query;
@@ -16,4 +20,11 @@ exports.getUserByUsername = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch(next);
+};
+
+exports.postNewUser = (req, res, next) => {
+  const newUser = req.body;
+  addNewUser(newUser).then((user) => {
+    res.status(201).send(user);
+  });
 };
