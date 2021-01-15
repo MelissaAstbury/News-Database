@@ -31,9 +31,7 @@ exports.updateById = (req, res, next) => {
     .then(([articleVoteIncreased]) => {
       res.status(201).send({ articleVoteIncreased });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 exports.getArticleComments = (req, res, next) => {

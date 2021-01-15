@@ -30,6 +30,12 @@ exports.updateArticleById = (article_id, voteIncrease) => {
     .where('article_id', '=', article_id)
     .increment('votes', voteIncrease)
     .then((result) => {
+      if (result.length < 1) {
+        return Promise.reject({
+          statusCode: 404,
+          msg: 'This article_id does not exist',
+        });
+      }
       return result;
     });
 };

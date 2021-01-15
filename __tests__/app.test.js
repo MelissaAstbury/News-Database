@@ -139,19 +139,6 @@ describe('/api/articles', () => {
         });
     });
   });
-  describe.only('DELETE', () => {
-    it('status 204 - deletes an article object when given an id that exists', () => {
-      return request(app).delete('/api/articles/1').expect(204);
-    });
-    it('status 404 - returns and err msg when article_id object does not exists', () => {
-      return request(app)
-        .delete('/api/articles/30')
-        .expect(404)
-        .then((response) => {
-          expect(response.body.message).toBe('This article_id does not exist');
-        });
-    });
-  });
   describe('PATCH', () => {
     it('status 201 - updates object - increases the vote count', () => {
       const input = { voteIncrease: 1 };
@@ -171,6 +158,29 @@ describe('/api/articles', () => {
               votes: 101,
             },
           });
+        });
+    });
+  });
+  describe('ERROR HANDLING', () => {
+    it('status 204 - deletes an article object when given an id that exists', () => {
+      return request(app).delete('/api/articles/1').expect(204);
+    });
+    it('status 404 - returns and err msg when article_id object does not exists', () => {
+      return request(app)
+        .delete('/api/articles/30')
+        .expect(404)
+        .then((response) => {
+          expect(response.body.message).toBe('This article_id does not exist');
+        });
+    });
+    it('status 404 - returns err message when article_id does not exist for a patch request', () => {
+      const input = { voteIncrease: 1 };
+      return request(app)
+        .patch('/api/articles/50')
+        .send(input)
+        .expect(404)
+        .then((response) => {
+          expect(response.body.message).toBe('This article_id does not exist');
         });
     });
   });

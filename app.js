@@ -14,7 +14,6 @@ app.use('/api/articles', articleRoutes);
 app.use('/api/comments', commentRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err);
   if (err.statusCode) {
     res.status(err.statusCode).send({ message: err.msg });
   } else {
